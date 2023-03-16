@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_attendance_log,Attendance Logs,model_attendance_log,,1,0,0,0
+access_attendance_log_admin,Admin Access for Attendance Logs,model_attendance_log,base.group_system,1,1,1,1
+access_deduction_policy,deduction_policy,model_deduction_policy,,1,1,1,1

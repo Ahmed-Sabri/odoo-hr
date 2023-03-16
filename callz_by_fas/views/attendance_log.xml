@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--        <record id="hr_attendance.hr_attendance_action" model="ir.actions.act_window">-->
+        <!--            <field name="context">{'search_default_res_branch_id':1, 'search_default_today':1, 'create': False, 'edit':-->
+        <!--                False, 'delete': False, 'duplicate': False}-->
+        <!--            </field>-->
+        <!--            <field name="view_mode">tree,kanban</field>-->
+        <!--        </record>-->
+
+        <record id="attendance_log_tree_view" model="ir.ui.view">
+            <field name="name">attendance.log.tree.view</field>
+            <field name="model">attendance.log</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Attendance Logs">
+                    <field name="att_id"/>
+                    <field name="emp_code"/>
+                    <field name="punch_time"/>
+                    <field name="punch_state"/>
+                    <field name="verify_type"/>
+                    <field name="terminal_alias"/>
+                    <field name="transferred"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_attendance_log" model="ir.actions.act_window">
+            <field name="name">Attendance Logs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">attendance.log</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False}</field>
+        </record>
+
+        <menuitem id="menu_hr_attendance_settings_main" name="Configuration"
+                  parent="hr_attendance.menu_hr_attendance_root"
+                  sequence="99" groups="hr_attendance.group_hr_attendance_manager"/>
+
+        <menuitem id="hr_attendance.menu_hr_attendance_settings" name="Configuration"
+                  parent="menu_hr_attendance_settings_main"
+                  sequence="99" action="hr_attendance.action_hr_attendance_settings"
+                  groups="hr_attendance.group_hr_attendance_manager"/>
+
+        <menuitem id="menu_attendance_log"
+                  name="Attendance Log"
+                  parent="menu_hr_attendance_settings_main"
+                  action="action_attendance_log"
+                  sequence="1"/>
+    </data>
+    <data noupdate="1">
+        <record id="sync_attendance_log" model="ir.cron">
+            <field name="name">Biotime Integration</field>
+            <field name="model_id" ref="model_res_company"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_biotime_attendance_sync()</field>
+            <field name="interval_number">10</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+    </data>
+</odoo>
